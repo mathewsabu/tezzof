@@ -6,6 +6,8 @@ import 'package:final_year_project/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class PhoneScreen extends StatefulWidget {
+
+
   static String id = 'phone_number_screen';
 
   const PhoneScreen({Key key}) : super(key: key);
@@ -18,10 +20,14 @@ class _PhoneScreenState extends State<PhoneScreen> {
   String number;
   bool shrink = false;
 
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Continue with Phone'),
+        ),
         body: Flex(
           crossAxisAlignment: CrossAxisAlignment.center,
           direction: Axis.vertical,
@@ -31,6 +37,14 @@ class _PhoneScreenState extends State<PhoneScreen> {
               child: ImageHolder(
                 image: 'images/cupcakes.jpg',
                 shrink: shrink,
+              ),
+            ),
+
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
+              child: Text('You\'ll receive a 6 digit code to verify next.',
+                textAlign: TextAlign.center,
+                style: kSecondaryTextStyle,
               ),
             ),
 
@@ -51,7 +65,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: OutlinedButton(
+              child: TextButton(
                 onPressed: () async {
                   //Navigator.pushNamed(context, OtpScreen.id);
                   await FirebaseAuth.instance.verifyPhoneNumber(
@@ -68,14 +82,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     codeAutoRetrievalTimeout: (String verificationId) {},
                   );
                 },
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 40.0),
-                  side: const BorderSide(
-                    color: Colors.white,
-                    width: 2.0,
-                    style: BorderStyle.solid,
-                  ),
-                ),
+                style: kButtonStyle,
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 80.0),
                   child: kSubmitButtonChild,

@@ -20,7 +20,7 @@ class ImageHolder extends StatelessWidget {
       ),
       margin: const EdgeInsets.all(20.0),
       width: double.infinity,
-      height: shrink ? 250.0 : 450.0,
+      height: shrink ? 0 : 400.0,
       curve: Curves.fastOutSlowIn,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),

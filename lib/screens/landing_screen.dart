@@ -44,17 +44,11 @@ class _LandingScreenState extends State<LandingScreen> {
                 style: kSecondaryTextStyle,
               ),
             ),
-            OutlinedButton(
+            TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, PhoneScreen.id);
               },
-              style: OutlinedButton.styleFrom(
-                side: const BorderSide(
-                  color: Colors.white,
-                  width: 2.0,
-                  style: BorderStyle.solid,
-                )
-              ),
+              style: kButtonStyle.copyWith(minimumSize: MaterialStateProperty.all(const Size(200.0, 80.0))),
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 80.0),
                 child: kRegisterButtonChild,

@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:final_year_project/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:final_year_project/screens/landing_screen.dart';
@@ -10,6 +11,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: kScaffoldColor, // status bar color
+    statusBarBrightness: Brightness.light,
+    statusBarIconBrightness: Brightness.dark,
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,16 +25,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+        appBarTheme: kAppBarTheme,
         scaffoldBackgroundColor: kScaffoldColor,
         primarySwatch: Colors.blue,
       ),
-      initialRoute: LandingScreen.id,
+      initialRoute: LandingScreen.id,  //PhoneScreen.id,//OtpScreen.id,
       routes: {
         LandingScreen.id : (context) => const LandingScreen(),
         PhoneScreen.id : (context) => const PhoneScreen(),
-        OtpScreen.id : (context) => const OtpScreen(),
+        OtpScreen.id : (context) => OtpScreen(),
 
 
 
