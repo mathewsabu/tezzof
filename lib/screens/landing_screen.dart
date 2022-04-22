@@ -6,7 +6,7 @@ import 'package:final_year_project/components/image_holder.dart';
 import 'package:final_year_project/constants.dart';
 
 class LandingScreen extends StatefulWidget {
-  const LandingScreen({Key key}) : super(key: key);
+  const LandingScreen({Key? key}) : super(key: key);
 
   static String id = 'landing_screen';
 

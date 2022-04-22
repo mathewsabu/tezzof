@@ -6,6 +6,7 @@ import 'package:final_year_project/screens/phone_number_screen.dart';
 import 'package:final_year_project/screens/otp_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:final_year_project/screens/registration_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
       routes: {
         LandingScreen.id : (context) => const LandingScreen(),
         PhoneScreen.id : (context) => const PhoneScreen(),
-        OtpScreen.id : (context) => OtpScreen(),
+        OtpScreen.id : (context) => const OtpScreen(),
+        RegistrationScreen.id : (context) => const RegistrationScreen(),
 
 
 

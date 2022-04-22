@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 
 class ImageHolder extends StatelessWidget {
 
-  const ImageHolder({Key key, this.image, this.shrink = false}) : super(key: key);
+  const ImageHolder({Key? key, this.image, this.shrink = false}) : super(key: key);
 
-  final String image;
+  final String? image;
   final bool shrink;
 
   @override
