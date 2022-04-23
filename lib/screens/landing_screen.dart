@@ -26,7 +26,7 @@ class _LandingScreenState extends State<LandingScreen> {
             const Hero(
               tag: 'cupcake',
               child: ImageHolder(
-                image: 'images/cupcakes.jpg',
+                image1: 'images/cupcakes.jpg',
               ),
             ),
             const SizedBox(

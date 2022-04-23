@@ -1,3 +1,4 @@
+import 'package:final_year_project/components/role_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:final_year_project/constants.dart';
 
@@ -11,6 +12,9 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -18,10 +22,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         appBar: AppBar(
           title: const Text('Registration'),
         ),
-        body: Flex(
-          direction: Axis.vertical,
+        body: Column(
+          //direction: Axis.vertical,
           children: const [
-            Text('Registration Page'),
+
+            Image(image: AssetImage('images/cupcakes.jpg')),
+
+            RoleSelector()
           ],
         ),
       ),

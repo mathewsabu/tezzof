@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 
 class ImageHolder extends StatelessWidget {
 
-  const ImageHolder({Key? key, this.image, this.shrink = false}) : super(key: key);
-
-  final String? image;
+  final String image1;
   final bool shrink;
+
+  const ImageHolder({Key? key, required this.image1 , this.shrink = false}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +24,10 @@ class ImageHolder extends StatelessWidget {
       width: double.infinity,
       height: shrink ? 0 : 400.0,
       curve: Curves.fastOutSlowIn,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         image: DecorationImage(
-          image: AssetImage('images/cupcakes.jpg'),
+          image: AssetImage(image1),
           fit: BoxFit.cover,
         ),
       ),

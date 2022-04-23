@@ -47,7 +47,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
               Hero(
                 tag: 'cupcake',
                 child: ImageHolder(
-                  image: 'images/cupcakes.jpg',
+                  image1: 'images/cupcakes.jpg',
                   shrink: shrink,
                 ),
               ),
