@@ -1,5 +1,6 @@
 import 'package:final_year_project/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class VendorRegistrationScreen extends StatefulWidget {
   const VendorRegistrationScreen({Key? key}) : super(key: key);
@@ -7,10 +8,14 @@ class VendorRegistrationScreen extends StatefulWidget {
   static String id = 'vendor_registration_screen';
 
   @override
-  State<VendorRegistrationScreen> createState() => _VendorRegistrationScreenState();
+  State<VendorRegistrationScreen> createState() =>
+      _VendorRegistrationScreenState();
 }
 
 class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,107 +26,55 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
               child: TextFormField(
-                decoration: kTextFieldDecoration.copyWith(
-                  labelText: 'Business Name'
-                ),
-                onChanged: (name){
-                },
+                decoration:
+                    kTextFieldDecoration.copyWith(labelText: 'Business Name'),
+                onChanged: (name) {},
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
               child: TextFormField(
-                decoration: kTextFieldDecoration.copyWith(
-                    labelText: 'Owners Name'
-                ),
-                onChanged: (name){
-                },
+                decoration:
+                    kTextFieldDecoration.copyWith(labelText: 'Owners Name'),
+                onChanged: (name) {},
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
               child: TextFormField(
                 decoration: kTextFieldDecoration.copyWith(
-                    labelText: 'Business Category'
-                ),
-                onChanged: (name){
-                },
+                    labelText: 'Business Category'),
+                onChanged: (name) {},
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
               child: TextFormField(
-                decoration: kTextFieldDecoration.copyWith(
-                    labelText: 'Phone Number'
-                ),
-                onChanged: (name){
-                },
+                decoration:
+                    kTextFieldDecoration.copyWith(labelText: 'Phone Number'),
+                onChanged: (name) {},
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
-              child: TextFormField(
-                decoration: kTextFieldDecoration.copyWith(
-                    labelText: 'Name is'
+            Container(
+              height: 200.0,
+              child: const GoogleMap(
+                mapType: MapType.normal,
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(37.42796133580664, -122.085749655962),
+                  zoom: 14.4746,
                 ),
-                onChanged: (name){
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
-              child: TextFormField(
-                decoration: kTextFieldDecoration.copyWith(
-                    labelText: 'Name is'
-                ),
-                onChanged: (name){
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
-              child: TextFormField(
-                decoration: kTextFieldDecoration.copyWith(
-                    labelText: 'Name is'
-                ),
-                onChanged: (name){
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
-              child: TextFormField(
-                decoration: kTextFieldDecoration.copyWith(
-                    labelText: 'Name is'
-                ),
-                onChanged: (name){
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
-              child: TextFormField(
-                decoration: kTextFieldDecoration.copyWith(
-                    labelText: 'Name is'
-                ),
-                onChanged: (name){
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
-              child: TextFormField(
-                decoration: kTextFieldDecoration.copyWith(
-                    labelText: 'Name is'
-                ),
-                onChanged: (name){
-                },
-              ),
-            ),
-          ],
 
+              ),
+            )
+
+            //GoogleMap(initialCameraPosition: CameraPosition(target: LatLng()),)
+          ],
         ),
       ),
     );

@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:final_year_project/screens/registration_screen.dart';
 import 'package:final_year_project/screens/vendor_registration_screen.dart';
+import 'screens/map_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,13 +35,15 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: kScaffoldColor,
         primarySwatch: Colors.blue,
       ),
-      initialRoute: VendorRegistrationScreen.id,  //PhoneScreen.id,//OtpScreen.id,
+      initialRoute:  VendorRegistrationScreen.id,  //PhoneScreen.id,//OtpScreen.id,
       routes: {
         LandingScreen.id : (context) => const LandingScreen(),
         PhoneScreen.id : (context) => const PhoneScreen(),
         OtpScreen.id : (context) => const OtpScreen(),
         RegistrationScreen.id : (context) => const RegistrationScreen(),
         VendorRegistrationScreen.id : (context) => const VendorRegistrationScreen(),
+        MapScreen.id : (context) => const MapScreen(),
+
 
 
 
