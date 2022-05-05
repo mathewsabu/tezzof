@@ -8,6 +8,7 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
 import 'registration_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_year_project/screens/vendor_registration_screen.dart';
 
 class PhoneScreen extends StatefulWidget {
   static String id = 'phone_number_screen';
@@ -136,7 +137,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const RegistrationScreen()));
+                                      const VendorRegistrationScreen()));
                         }
                       },
                       verificationFailed: (FirebaseAuthException e) {

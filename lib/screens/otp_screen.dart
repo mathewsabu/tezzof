@@ -1,3 +1,4 @@
+import 'package:final_year_project/screens/vendor_registration_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -62,7 +63,6 @@ class _OtpScreenState extends State<OtpScreen> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-
                     errorPinTheme: PinTheme(
                       width: 80,
                       height: 80,
@@ -82,8 +82,6 @@ class _OtpScreenState extends State<OtpScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     onCompleted: (pin) async {
-
-
                       UserCredential? userCredential;
 
                       setState(() {
@@ -106,7 +104,6 @@ class _OtpScreenState extends State<OtpScreen> {
                           ..showSnackBar(
                               const SnackBar(content: Text('Success')));
                       } catch (e) {
-
                         setState(() {
                           errorayi = true;
                         });
@@ -123,23 +120,24 @@ class _OtpScreenState extends State<OtpScreen> {
                       //         const SnackBar(content: Text('Success2')));
                       // }
 
-                      if (errorayi && userCredential!= null) {
+                      if (errorayi && userCredential != null) {
                         ScaffoldMessenger.of(context)
                           ..removeCurrentSnackBar()
                           ..showSnackBar(
                               const SnackBar(content: Text('Success3')));
 
-                        if(userCredential != null){
-                          String? id = userCredential.user?.uid ;
-                        }
-
-
-                        //here you can store user data in backend
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const RegistrationScreen()));
+                                    const VendorRegistrationScreen()));
+
+                        if (userCredential != null) {
+                          String? id = userCredential.user?.uid;
+                        }
+
+                        //here you can store user data in backend
+
                       }
 
                       setState(() {

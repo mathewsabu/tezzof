@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       initialRoute:
-          VendorRegistrationScreen.id, //PhoneScreen.id,//OtpScreen.id,
+          LandingScreen.id, //PhoneScreen.id,//OtpScreen.id,
       routes: {
         LandingScreen.id: (context) => const LandingScreen(),
         PhoneScreen.id: (context) => const PhoneScreen(),
