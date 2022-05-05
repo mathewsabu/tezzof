@@ -1,6 +1,14 @@
+//import 'dart:html';
+
+import 'dart:convert';
+
 import 'package:final_year_project/constants.dart';
+import 'package:final_year_project/screens/map_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:final_year_project/components/image_holder.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class VendorRegistrationScreen extends StatefulWidget {
   const VendorRegistrationScreen({Key? key}) : super(key: key);
@@ -13,8 +21,24 @@ class VendorRegistrationScreen extends StatefulWidget {
 }
 
 class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
+  String? buisnessName;
+  String? ownerName;
+  String? buisnessCat;
+  String? phoneNumber;
+  Future? locations;
+  LatLng? savedLocation;
 
+  final _fireStore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+  User? user;
+  double? lat;
+  double? long;
 
+  @override
+  void initState() {
+    user = _auth.currentUser;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +55,9 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
               child: TextFormField(
                 decoration:
                     kTextFieldDecoration.copyWith(labelText: 'Business Name'),
-                onChanged: (name) {},
+                onChanged: (name) {
+                  buisnessName = name;
+                },
               ),
             ),
             Padding(
@@ -40,7 +66,9 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
               child: TextFormField(
                 decoration:
                     kTextFieldDecoration.copyWith(labelText: 'Owners Name'),
-                onChanged: (name) {},
+                onChanged: (owner) {
+                  ownerName = owner;
+                },
               ),
             ),
             Padding(
@@ -49,7 +77,9 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
               child: TextFormField(
                 decoration: kTextFieldDecoration.copyWith(
                     labelText: 'Business Category'),
-                onChanged: (name) {},
+                onChanged: (cat) {
+                  buisnessCat = cat;
+                },
               ),
             ),
             Padding(
@@ -58,19 +88,52 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
               child: TextFormField(
                 decoration:
                     kTextFieldDecoration.copyWith(labelText: 'Phone Number'),
-                onChanged: (name) {},
+                onChanged: (phone) {
+                  phoneNumber = phone;
+                },
               ),
             ),
-            Container(
-              height: 200.0,
-              child: const GoogleMap(
-                mapType: MapType.normal,
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(37.42796133580664, -122.085749655962),
-                  zoom: 14.4746,
-                ),
 
+            Text('Location : '),
+
+            GestureDetector(
+              child: Container(
+                height: 200.0,
+                width: double.infinity,
+                margin: const EdgeInsets.all(20.0),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  image: DecorationImage(
+                    image: AssetImage('images/map.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
+              onTap: () async {
+                final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => const MapScreen()));
+                setState(() {
+                  var mapped = jsonDecode('$result');
+                  lat = mapped[0];
+                  long = mapped[1];
+                });
+              },
+            ),
+            TextButton(
+              onPressed: () {
+                _fireStore.collection('userdata').add({
+                  'uid': user!.uid,
+                  'business_name': buisnessName,
+                  'owner_name': ownerName,
+                  'business_category': buisnessCat,
+                  'phone': phoneNumber,
+                  'location': GeoPoint(lat!, long!),
+                });
+              },
+              style: kButtonStyle,
+              child: kSubmitButtonChild,
             )
 
             //GoogleMap(initialCameraPosition: CameraPosition(target: LatLng()),)

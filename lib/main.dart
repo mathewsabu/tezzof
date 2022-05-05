@@ -29,24 +29,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Tezzoff',
       theme: ThemeData(
         appBarTheme: kAppBarTheme,
         scaffoldBackgroundColor: kScaffoldColor,
         primarySwatch: Colors.blue,
       ),
-      initialRoute:  VendorRegistrationScreen.id,  //PhoneScreen.id,//OtpScreen.id,
+      initialRoute:
+          VendorRegistrationScreen.id, //PhoneScreen.id,//OtpScreen.id,
       routes: {
-        LandingScreen.id : (context) => const LandingScreen(),
-        PhoneScreen.id : (context) => const PhoneScreen(),
-        OtpScreen.id : (context) => const OtpScreen(),
-        RegistrationScreen.id : (context) => const RegistrationScreen(),
-        VendorRegistrationScreen.id : (context) => const VendorRegistrationScreen(),
-        MapScreen.id : (context) => const MapScreen(),
-
-
-
-
+        LandingScreen.id: (context) => const LandingScreen(),
+        PhoneScreen.id: (context) => const PhoneScreen(),
+        OtpScreen.id: (context) => const OtpScreen(),
+        RegistrationScreen.id: (context) => const RegistrationScreen(),
+        VendorRegistrationScreen.id: (context) =>
+            const VendorRegistrationScreen(),
+        MapScreen.id: (context) => const MapScreen(),
       },
     );
   }
