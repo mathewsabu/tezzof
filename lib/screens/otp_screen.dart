@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_year_project/screens/vendor_registration_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class OtpScreen extends StatefulWidget {
   static String id = "otp_screen";
   final String? phoneNumber;
   final String? verificationId;
+  
 
   const OtpScreen({Key? key, this.phoneNumber, this.verificationId})
       : super(key: key);
@@ -21,6 +23,7 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
+  final _fireStore = FirebaseFirestore.instance;
   bool showSpinner = false;
   bool errorayi = false;
 
@@ -124,17 +127,26 @@ class _OtpScreenState extends State<OtpScreen> {
                         ScaffoldMessenger.of(context)
                           ..removeCurrentSnackBar()
                           ..showSnackBar(
-                              const SnackBar(content: Text('Success3')));
+                              const SnackBar(content: Text('Success3')
+                              ));
+
 
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const VendorRegistrationScreen()));
+                                    const RegistrationScreen()));
 
                         if (userCredential != null) {
                           String? id = userCredential.user?.uid;
+                          _fireStore
+                              .doc('userdata/$id')
+                              .set({'id': id, 'phone': widget.phoneNumber});
                         }
+
+
+                        
+                       
 
                         //here you can store user data in backend
 

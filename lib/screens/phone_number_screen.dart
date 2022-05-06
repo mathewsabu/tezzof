@@ -133,11 +133,15 @@ class _PhoneScreenState extends State<PhoneScreen> {
                           // _fireStore.collection('userdata').add({
                           //   'uid' : id,
                           // });
+
+                          _fireStore
+                              .doc('userdata/${id}')
+                              .set({'id': id, 'phone': phoneNumber});
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const VendorRegistrationScreen()));
+                                      const RegistrationScreen()));
                         }
                       },
                       verificationFailed: (FirebaseAuthException e) {

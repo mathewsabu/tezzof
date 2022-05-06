@@ -31,8 +31,8 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
   final _fireStore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   User? user;
-  double? lat;
-  double? long;
+  double? lat = 0.0;
+  double? long = 0.0;
 
   @override
   void initState() {
@@ -94,8 +94,6 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
               ),
             ),
 
-            Text('Location : '),
-
             GestureDetector(
               child: Container(
                 height: 200.0,
@@ -121,6 +119,7 @@ class _VendorRegistrationScreenState extends State<VendorRegistrationScreen> {
                 });
               },
             ),
+            Text('Location : $lat , $long'),
             TextButton(
               onPressed: () {
                 _fireStore.collection('userdata').add({
