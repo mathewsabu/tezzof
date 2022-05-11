@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:final_year_project/screens/registration_screen.dart';
 import 'package:final_year_project/screens/vendor_registration_screen.dart';
 import 'screens/map_screen.dart';
+import 'screens/shop_registration_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,8 +36,8 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: kScaffoldColor,
         primarySwatch: Colors.blue,
       ),
-      initialRoute:
-          LandingScreen.id, //RegistrationScreen.id, // //PhoneScreen.id, //
+      initialRoute: ShopRegistration
+          .id, //LandingScreen.id, //RegistrationScreen.id, // //PhoneScreen.id, //
       routes: {
         LandingScreen.id: (context) => const LandingScreen(),
         PhoneScreen.id: (context) => const PhoneScreen(),
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         VendorRegistrationScreen.id: (context) =>
             const VendorRegistrationScreen(),
         MapScreen.id: (context) => const MapScreen(),
+        ShopRegistration.id: (context) => const ShopRegistration(),
       },
     );
   }

@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:final_year_project/components/image_holder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:final_year_project/components/string_input_box.dart';
+import 'shop_registration_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -101,7 +103,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
 
             ///Widgets to appear in the screen
-
             ///The dorp down Text field for selecting the Role;
             Padding(
               padding:
@@ -117,20 +118,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
             ),
 
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
-              child: TextFormField(
-                decoration: kTextFieldDecoration.copyWith(labelText: 'Name'),
-                onChanged: (value) {
-                  setState(() {
-                    name = value;                    
-                  });
-                  
-                },
-              ),
+            ///input Name
+            ///Addition component StringInputBox is created for the necessity of repeated use.
+            StringInputBox(
+              label: 'Name',
+              onChanged: (value) {
+                setState(() {
+                  name = value;
+                });
+              },
             ),
-
+            
+            ///input - Gender
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
@@ -145,6 +144,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
             ),
 
+
+            ///input DOB
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
@@ -157,7 +158,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 },
               ),
             ),
+            
 
+            ///Save the Gathered data to Firebase Firestore
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: TextButton(
