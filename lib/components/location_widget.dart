@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geocode/geocode.dart';
 import 'package:final_year_project/services/network_helper.dart';
+import 'package:final_year_project/private/api_keys.dart';
 
 class LocationWidget extends StatefulWidget {
   const LocationWidget(
@@ -17,7 +18,7 @@ class LocationWidget extends StatefulWidget {
 class _LocationWidgetState extends State<LocationWidget> {
   String? addr1 = '';
   String? addr2 = '';
-  String apiKey = 'AIzaSyCBqUqnXJvXXRxdDrVCsb-1lyDSZ6nUdnA';
+  final String _apiKey = googleMapsApiKey;
   var result;
 
   static const TextStyle kFeatureText = TextStyle(
@@ -39,7 +40,7 @@ class _LocationWidgetState extends State<LocationWidget> {
     var address;
     try {
       result = await NetworkHelper.getData(
-          'https://maps.googleapis.com/maps/api/geocode/json?latlng=${widget.latitude},${widget.longitude}&key=$apiKey');
+          'https://maps.googleapis.com/maps/api/geocode/json?latlng=${widget.latitude},${widget.longitude}&key=$_apiKey');
       print(result);
       print(widget.latitude);
       print(widget.longitude);
