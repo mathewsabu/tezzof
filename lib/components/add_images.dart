@@ -33,7 +33,7 @@ class _AddImagesState extends State<AddImages> {
     Widget gridChild;
     List<Widget>? tempImage = [];
     for (int i = 0; i < templist!.length; i++) {
-      path = templist![i].path;
+      path = templist[i].path;
       gridChild = Row(
         mainAxisSize: MainAxisSize.max,
         children: [

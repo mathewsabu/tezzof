@@ -25,7 +25,7 @@ class _MapScreenState extends State<MapScreen> {
   /// function to get the current location
 
   void getLocation() async {
-    await Loc.getPermission();
+    await Loc.getCurrentLocation();
 
     ///function to check for permission
     position = await Geolocator.getCurrentPosition(
@@ -121,16 +121,14 @@ class _MapScreenState extends State<MapScreen> {
                 ],
               ),
             ),
-
             TextButton(
               onPressed: () {
-                Navigator.pop(context , currentPos.toJson().toString());
+                Navigator.pop(context, currentPos.toJson().toString());
               },
               style: kButtonStyle,
               child: kSubmitButtonChild,
             )
           ],
-
         ),
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.gps_fixed),

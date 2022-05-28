@@ -8,12 +8,13 @@ import 'package:pinput/pinput.dart';
 import 'package:final_year_project/constants.dart';
 import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
 import 'registration_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:final_year_project/services/authentication_service.dart';
 
 class OtpScreen extends StatefulWidget {
   static String id = "otp_screen";
   final String? phoneNumber;
   final String? verificationId;
-  
 
   const OtpScreen({Key? key, this.phoneNumber, this.verificationId})
       : super(key: key);
@@ -91,66 +92,82 @@ class _OtpScreenState extends State<OtpScreen> {
                         showSpinner = true;
                       });
 
-                      try {
-                        // print(pin);
-                        PhoneAuthCredential credential =
-                            PhoneAuthProvider.credential(
-                                verificationId: widget.verificationId!,
-                                smsCode: pin);
+                      var temp =
+                          await context.read<AuthenticationService>().verifyOtp(
+                                pin: pin,
+                                verificationId: widget.verificationId,
+                                phoneNumber: widget.phoneNumber,
+                                context: context,
+                              );
 
-                        userCredential = await FirebaseAuth.instance
-                            .signInWithCredential(credential);
-
-                        errorayi = true;
-                        ScaffoldMessenger.of(context)
-                          ..removeCurrentSnackBar()
-                          ..showSnackBar(
-                              const SnackBar(content: Text('Success')));
-                      } catch (e) {
-                        setState(() {
-                          errorayi = true;
-                        });
-
-                        ScaffoldMessenger.of(context)
-                          ..removeCurrentSnackBar()
-                          ..showSnackBar(
-                              const SnackBar(content: Text('Invalid OTP')));
-                      }
-                      // if (userCredential == null) {
-                      //   ScaffoldMessenger.of(context)
-                      //     ..removeCurrentSnackBar()
-                      //     ..showSnackBar(
-                      //         const SnackBar(content: Text('Success2')));
-                      // }
-
-                      if (errorayi && userCredential != null) {
-                        ScaffoldMessenger.of(context)
-                          ..removeCurrentSnackBar()
-                          ..showSnackBar(
-                              const SnackBar(content: Text('Success3')
-                              ));
-
-
+                      if (temp == false) {
+                        // ignore: use_build_context_synchronously
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
                                     const RegistrationScreen()));
-
-                        if (userCredential != null) {
-                          String? id = userCredential.user?.uid;
-                          _fireStore
-                              .doc('userdata/$id')
-                              .set({'id': id, 'phone': widget.phoneNumber});
-                        }
-
-
-                        
-                       
-
-                        //here you can store user data in backend
-
+                      } else {
+                        setState(() {
+                          errorayi = temp!;
+                        });
                       }
+
+                      // try {
+                      //   // print(pin);
+                      //   PhoneAuthCredential credential =
+                      //       PhoneAuthProvider.credential(
+                      //           verificationId: widget.verificationId!,
+                      //           smsCode: pin);
+
+                      //   userCredential = await FirebaseAuth.instance
+                      //       .signInWithCredential(credential);
+
+                      //   errorayi = true;
+                      //   ScaffoldMessenger.of(context)
+                      //     ..removeCurrentSnackBar()
+                      //     ..showSnackBar(
+                      //         const SnackBar(content: Text('Success')));
+                      // } catch (e) {
+                      //   setState(() {
+                      //     errorayi = true;
+                      //   });
+
+                      //   ScaffoldMessenger.of(context)
+                      //     ..removeCurrentSnackBar()
+                      //     ..showSnackBar(
+                      //         const SnackBar(content: Text('Invalid OTP')));
+                      // }
+                      // // if (userCredential == null) {
+                      // //   ScaffoldMessenger.of(context)
+                      // //     ..removeCurrentSnackBar()
+                      // //     ..showSnackBar(
+                      // //         const SnackBar(content: Text('Success2')));
+                      // // }
+
+                      // if (errorayi && userCredential != null) {
+                      //   ScaffoldMessenger.of(context)
+                      //     ..removeCurrentSnackBar()
+                      //     ..showSnackBar(
+                      //         const SnackBar(content: Text('Success3')
+                      //         ));
+
+                      //   // Navigator.pushReplacement(
+                      //   //     context,
+                      //   //     MaterialPageRoute(
+                      //   //         builder: (context) =>
+                      //   //             const RegistrationScreen()));
+
+                      //   if (userCredential != null) {
+                      //     String? id = userCredential.user?.uid;
+                      //     _fireStore
+                      //         .doc('userdata/$id')
+                      //         .set({'id': id, 'phone': widget.phoneNumber});
+                      //   }
+
+                      //   //here you can store user data in backend
+
+                      // }
 
                       setState(() {
                         showSpinner = false;

@@ -1,4 +1,5 @@
 import 'package:final_year_project/screens/otp_screen.dart';
+import 'package:final_year_project/services/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:final_year_project/components/image_holder.dart';
 //import 'package:flutter/rendering.dart';
@@ -9,6 +10,8 @@ import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
 import 'registration_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_year_project/screens/vendor_registration_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:final_year_project/services/authentication_service.dart';
 
 class PhoneScreen extends StatefulWidget {
   static String id = 'phone_number_screen';
@@ -114,55 +117,59 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     //Navigator.pushNamed(context, OtpScreen.id);
 
                     ///Function to verify the phone number and and send the otp
-                    await FirebaseAuth.instance.verifyPhoneNumber(
-                      phoneNumber: phoneNumber!,
-                      verificationCompleted:
-                          (PhoneAuthCredential phoneAuthCredential) async {
-                        User? user;
-                        bool error = false;
-                        try {
-                          user = (await FirebaseAuth.instance
-                                  .signInWithCredential(phoneAuthCredential))
-                              .user!;
-                        } catch (e) {
-                          print("Failed to sign in: " + e.toString());
-                          error = true;
-                        }
-                        if (!error && user != null) {
-                          String id = user.uid;
-                          // _fireStore.collection('userdata').add({
-                          //   'uid' : id,
-                          // });
+                    // await FirebaseAuth.instance.verifyPhoneNumber(
+                    //   phoneNumber: phoneNumber!,
+                    //   verificationCompleted:
+                    //       (PhoneAuthCredential phoneAuthCredential) async {
+                    //     User? user;
+                    //     bool error = false;
+                    //     try {
+                    //       user = (await FirebaseAuth.instance
+                    //               .signInWithCredential(phoneAuthCredential))
+                    //           .user!;
+                    //     } catch (e) {
+                    //       print("Failed to sign in: " + e.toString());
+                    //       error = true;
+                    //     }
+                    //     if (!error && user != null) {
+                    //       String id = user.uid;
+                    //       // _fireStore.collection('userdata').add({
+                    //       //   'uid' : id,
+                    //       // });
 
-                          _fireStore
-                              .doc('userdata/${id}')
-                              .set({'id': id, 'phone': phoneNumber});
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const RegistrationScreen()));
-                        }
-                      },
-                      verificationFailed: (FirebaseAuthException e) {
-                        print('failed');
-                      },
-                      codeSent:
-                          (String verificationId, int? resendToken) async {
-                        setState(() {
-                          showSpinner = false;
-                        });
-                        final result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => OtpScreen(
-                                phoneNumber: phoneNumber,
-                                verificationId: verificationId,
-                              ),
-                            ));
-                      },
-                      codeAutoRetrievalTimeout: (String verificationId) {},
-                    );
+                    //       _fireStore
+                    //           .doc('userdata/${id}')
+                    //           .set({'id': id, 'phone': phoneNumber});
+                    //       Navigator.pushReplacement(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //               builder: (context) =>
+                    //                   const RegistrationScreen()));
+                    //     }
+                    //   },
+                    //   verificationFailed: (FirebaseAuthException e) {
+                    //     print('failed');
+                    //   },
+                    //   codeSent:
+                    //       (String verificationId, int? resendToken) async {
+                    //     setState(() {
+                    //       showSpinner = false;
+                    //     });
+                    //     final result = await Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) => OtpScreen(
+                    //             phoneNumber: phoneNumber,
+                    //             verificationId: verificationId,
+                    //           ),
+                    //         ));
+                    //   },
+                    //   codeAutoRetrievalTimeout: (String verificationId) {},
+                    // );
+
+                    context
+                        .read<AuthenticationService>()
+                        .signIn(phoneNumber: phoneNumber,context: context);
                   },
                   style: kButtonStyle,
                   child: const Padding(

@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
 
 class ShopRegistration extends StatefulWidget {
   const ShopRegistration({Key? key}) : super(key: key);
@@ -73,6 +74,35 @@ class _ShopRegistrationState extends State<ShopRegistration> {
     ),
   ];
 
+  ///Functions
+
+  @override
+  void initState() {
+    user = _auth.currentUser;
+    super.initState();
+  }
+
+  ///Function to Upload Images in a XFile List to the Cloud
+  void uploadImages(List<XFile> l) async {
+    for (int i = 0; i < l.length; i++) {
+      ///File to be uploaded
+      File file = File(l[i].path);
+
+      ///Reference in the Cloud
+      Reference? imageRef = storageRef
+          .child('shopImage/${user!.uid}/${l[i].path.split('/').last}');
+
+      ///Uploading the file to imageRef Reference
+      try {
+        await imageRef.putFile(file);
+      } catch (e) {
+        print('Error Ocuuerd Mahn!!');
+      }
+    }
+  }
+
+  ///UI
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -82,6 +112,7 @@ class _ShopRegistrationState extends State<ShopRegistration> {
         ),
         body: ListView(
           children: [
+            ///Image Displaying Widget with selector
             const Padding(
               padding: EdgeInsets.all(20.0),
               child: AddImages(
@@ -175,18 +206,23 @@ class _ShopRegistrationState extends State<ShopRegistration> {
                 });
               },
             ),
+
+            ///Button for Submitting the details collected and Uploading the Images to the reference
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: TextButton(
-                onPressed: () {
-                  user = _auth.currentUser;
-                  _fireStore.doc('shopdata/$businessName${user!.uid}').set({
-                    'uid' : user!.uid,
+                onPressed: () async {
+                  uploadImages(AddImages.images!);
+
+                  await _fireStore
+                      .doc('shopdata/$businessName${user!.uid}')
+                      .set({
+                    'uid': user!.uid,
                     'businessName': businessName,
                     'phone': phone,
                     'website': website,
                     'email': email,
-                    'cat' : cat,
+                    'cat': cat,
                   }, SetOptions(merge: true));
                 },
                 style: kButtonStyle,

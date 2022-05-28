@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:final_year_project/constants.dart';
 import 'package:final_year_project/screens/map_screen.dart';
@@ -128,7 +127,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 });
               },
             ),
-            
+
             ///input - Gender
             Padding(
               padding:
@@ -144,7 +143,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
             ),
 
-
             ///input DOB
             Padding(
               padding:
@@ -158,19 +156,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 },
               ),
             ),
-            
 
             ///Save the Gathered data to Firebase Firestore
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: TextButton(
-                onPressed: () {
-                  _fireStore.doc('userdata/${user!.uid}').set({
+                onPressed: () async {
+                  await _fireStore.doc('userdata/${user!.uid}').set({
                     'role': role,
                     'name': name,
                     'gender': gender,
                     'dob': dobtime,
                   }, SetOptions(merge: true));
+
+                  Navigator.pushNamed(context, ShopRegistration.id);
                 },
                 style: kButtonStyle,
                 child: const Padding(
