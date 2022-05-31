@@ -15,6 +15,8 @@ import 'screens/map_screen.dart';
 import 'screens/shop_registration_screen.dart';
 import 'package:provider/provider.dart';
 import 'services/authentication_service.dart';
+import 'services/loc.dart';
+import 'screens/test_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +37,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => Loc()),
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),

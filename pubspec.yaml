@@ -34,6 +34,8 @@ dependencies:
   flutter_native_splash: ^2.2.1
   geocoder: ^0.2.1
   geocode: ^1.0.1
+  firestore_search: ^0.1.9
+  substring_highlight: ^1.0.33
 
 
 

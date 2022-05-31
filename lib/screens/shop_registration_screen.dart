@@ -215,7 +215,7 @@ class _ShopRegistrationState extends State<ShopRegistration> {
                   uploadImages(AddImages.images!);
 
                   await _fireStore
-                      .doc('shopdata/$businessName${user!.uid}')
+                      .doc('shopdata/$businessName ${user!.uid}')
                       .set({
                     'uid': user!.uid,
                     'businessName': businessName,
@@ -223,6 +223,7 @@ class _ShopRegistrationState extends State<ShopRegistration> {
                     'website': website,
                     'email': email,
                     'cat': cat,
+                    'location': GeoPoint(lat!, long!),
                   }, SetOptions(merge: true));
                 },
                 style: kButtonStyle,

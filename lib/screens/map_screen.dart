@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:final_year_project/constants.dart';
 import 'package:final_year_project/services/loc.dart';
+import 'package:provider/provider.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -25,7 +26,8 @@ class _MapScreenState extends State<MapScreen> {
   /// function to get the current location
 
   void getLocation() async {
-    await Loc.getCurrentLocation();
+
+    await context.read<Loc>().getCurrentLocation();
 
     ///function to check for permission
     position = await Geolocator.getCurrentPosition(

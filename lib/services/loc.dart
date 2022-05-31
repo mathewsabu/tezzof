@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 
-class Loc {
-  static Future<Position> getCurrentLocation() async {
+class Loc extends ChangeNotifier {
+  Position? currentPosition;
+  double lat = 37.773972;
+  double lng = -122.431297;
+
+  Position? get position => currentPosition;
+  double get latitude => lat;
+  double get longitude => lng;
+
+  Future<Position?> getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -36,7 +45,10 @@ class Loc {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition(
+    currentPosition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
+    notifyListeners();
+
+    return currentPosition;
   }
 }

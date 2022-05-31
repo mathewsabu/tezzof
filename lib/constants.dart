@@ -5,7 +5,7 @@ const PinTheme kOtpTheme =
     PinTheme(margin: EdgeInsets.symmetric(horizontal: 10.0));
 
 ///Default Color of the Scaffold
-const Color kScaffoldColor = Color(0xFFDFE5F6);
+const Color kScaffoldColor = Color.fromRGBO(223, 229, 246, 1);
 
 ///Style of The Heading Text used in Landing Screen
 const kHeadingTextStyle = TextStyle(
@@ -54,7 +54,6 @@ const InputDecoration kTextFieldDecoration = InputDecoration(
   fillColor: Colors.white60,
   //hintText: 'Name',
 
-
   //label: Text('Phone Number'),
   //labelText: 'Name',
   labelStyle: TextStyle(decorationStyle: TextDecorationStyle.dotted),
@@ -97,3 +96,7 @@ ButtonStyle kButtonStyle = OutlinedButton.styleFrom(
     borderRadius: BorderRadius.all(Radius.circular(15.0)),
   ),
 );
+
+///Primary Color for all the search Widgets.
+const Color kPrimarySearchWidgetColor = Color.fromARGB(255, 208, 213, 232);
+const Color kSecondarySearchWidgetColor = Color.fromARGB(255, 147, 153, 170);

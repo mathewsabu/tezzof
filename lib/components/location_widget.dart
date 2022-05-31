@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:geocode/geocode.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:final_year_project/services/network_helper.dart';
 import 'package:final_year_project/private/api_keys.dart';
+import 'package:provider/provider.dart';
+import 'package:final_year_project/services/loc.dart';
 
 class LocationWidget extends StatefulWidget {
   const LocationWidget(
@@ -10,7 +12,6 @@ class LocationWidget extends StatefulWidget {
 
   @override
   State<LocationWidget> createState() => _LocationWidgetState();
-
   final double? latitude;
   final double? longitude;
 }
@@ -55,6 +56,7 @@ class _LocationWidgetState extends State<LocationWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       child: Row(
         children: [
