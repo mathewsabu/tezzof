@@ -28,16 +28,22 @@ class DataController extends GetxController {
       String collection, String queryString, Position postition) async {
     print('function called');
     List<Map<String, dynamic>> result = [];
+    print('Print Is WOrkig!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    print(queryString);
 
     ///Get all docs with Query
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection(collection)
-        .where('name', isGreaterThanOrEqualTo: queryString)
-        .get();
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection(collection).get();
 
-    for (int i = 0; i < snapshot.docs.length; i++) {
-      Map<String, dynamic> temp =
-          snapshot.docs[i].data() as Map<String, dynamic>;
+    List resultDocs = snapshot.docs
+        .where((QueryDocumentSnapshot<Object?> element) => element['name']
+            .toString()
+            .toLowerCase()
+            .contains(queryString.toLowerCase()))
+        .toList();
+
+    for (int i = 0; i < resultDocs.length; i++) {
+      Map<String, dynamic> temp = resultDocs[i].data() as Map<String, dynamic>;
       GeoPoint? shopPosition = temp['location'];
       var shopName = temp['shop'];
       var distance = Geolocator.distanceBetween(
@@ -55,13 +61,24 @@ class DataController extends GetxController {
     return result;
   }
 
-  Future queryOfferData(String collection, String queryString) async {
+  static Future queryItemData(String uid) async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection(collection)
-        .where('offer', isGreaterThanOrEqualTo: 0)
-        .orderBy('offer', descending: true)
+        .collection('itemdata')
+        .where('uid', isEqualTo: uid)
         .get();
 
     return snapshot;
+  }
+
+  static Future queryShopData(String uid) async {
+    print(uid);
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('shopdata')
+        .where('uid', isEqualTo: uid)
+        .get();
+    var temp = snapshot.docs.first.data();
+    print(temp);
+
+    return snapshot.docs.first;
   }
 }

@@ -36,6 +36,7 @@ dependencies:
   geocode: ^1.0.1
   firestore_search: ^0.1.9
   substring_highlight: ^1.0.33
+  permission_handler: ^9.2.0
 
 
 

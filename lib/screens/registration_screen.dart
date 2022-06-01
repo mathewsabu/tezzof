@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:final_year_project/constants.dart';
+import 'package:final_year_project/screens/customer_home_screen.dart';
 import 'package:final_year_project/screens/map_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -169,7 +170,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     'dob': dobtime,
                   }, SetOptions(merge: true));
 
-                  Navigator.pushNamed(context, ShopRegistration.id);
+                  if (role == 0) {
+                    // ignore: use_build_context_synchronously
+                    Navigator.pushNamed(context, ShopRegistration.id);
+                  } else if (role == 1) {
+                    // ignore: use_build_context_synchronously
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const CustomerHomeScreen()));
+                  } else {
+                    // ignore: use_build_context_synchronously
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Details not Entered')));
+                  }
                 },
                 style: kButtonStyle,
                 child: const Padding(

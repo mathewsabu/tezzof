@@ -13,7 +13,7 @@ class AddImages extends StatefulWidget {
 
   final double? width;
   final double? height;
-  static List<XFile>? images = []; 
+  static List<XFile> images = []; 
   
 
   @override
@@ -67,7 +67,7 @@ class _AddImagesState extends State<AddImages> {
             onTap: () {
               ///Here the Xfile object at the location where the close button is clicked is removed
               setState(() {
-                AddImages.images!.removeAt(i);
+                AddImages.images.removeAt(i);
               });
             },
           ),

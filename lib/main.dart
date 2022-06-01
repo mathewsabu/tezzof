@@ -17,6 +17,9 @@ import 'package:provider/provider.dart';
 import 'services/authentication_service.dart';
 import 'services/loc.dart';
 import 'screens/test_screen.dart';
+import 'services/common_veriables_provider.dart';
+import 'package:final_year_project/screens/vendor_screen.dart';
+import 'services/shop_data_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +41,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Loc()),
+        ChangeNotifierProvider(create: (_) => CommonVeriables()),
+        ChangeNotifierProvider(create: (_) => ShopData()),
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
@@ -75,7 +80,8 @@ class MyApp extends StatelessWidget {
 class initialRoute extends StatelessWidget {
   const initialRoute({Key? key}) : super(key: key);
 
-  Future<String?> checkRegistration({var db, User? firebaseUser}) async {
+  Future<String?> checkRegistration(
+      {var db, User? firebaseUser, context}) async {
     var data;
 
     final docRef = await db.collection("userdata").doc(firebaseUser!.uid);
@@ -105,7 +111,8 @@ class initialRoute extends StatelessWidget {
       return LandingScreen();
     } else {
       return FutureBuilder(
-        future: checkRegistration(firebaseUser: firebaseUser, db: _firestore),
+        future: checkRegistration(
+            firebaseUser: firebaseUser, db: _firestore, context: context),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             role = snapshot.data;
@@ -115,6 +122,8 @@ class initialRoute extends StatelessWidget {
               return const RegistrationScreen();
             } else if (role == 'customer') {
               return const CustomerHomeScreen();
+            } else if (role == 'vendor') {
+              return const VendorScreen();
             } else {
               return const RegistrationScreen();
             }

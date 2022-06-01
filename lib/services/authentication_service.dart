@@ -94,7 +94,6 @@ class AuthenticationService{
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(const SnackBar(content: Text('Success')));
-      print('kunna  Ran !!!!!!!!!!!!!!!ran');
 
       if (userCredential != null) {
         String? id = userCredential.user?.uid;

@@ -9,6 +9,7 @@ import 'package:final_year_project/components/item_card.dart';
 import 'package:final_year_project/services/loc.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'result_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   static String id = 'search_screen';
@@ -27,7 +28,7 @@ class _SearchScreenState extends State<SearchScreen> {
   late List<String> autoCompleteData;
   List<Map<String, dynamic>> result = [];
   late TextEditingController controller;
-  String? query = 'hide';
+  String? query;
 
   String? state;
 
@@ -45,21 +46,9 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
-  void getthedata() async {
-    setState(() {
-      isLoading = true;
-    });
-    var position = context.read<Loc>().currentPosition;
-    List<Map<String, dynamic>> temp =
-        await DataController.queryData('itemdata', query!, position!);
-    print(temp);
-    setState(() {
-      result.addAll(temp);
-    });
-  }
-
   void onComplete() {
-    getthedata();
+    Navigator.push<void>(context,
+        MaterialPageRoute(builder: (BuildContext context) => ResultScreen(query: query,)));
     setState(() {
       isCompleated = true;
       isLoading = false;
@@ -117,6 +106,10 @@ class _SearchScreenState extends State<SearchScreen> {
           );
         },
         onSelected: (selectedString) {
+          setState(() {
+                        query = selectedString.toString();
+                        print(selectedString);
+                      });
           print(selectedString);
         },
         fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
@@ -133,6 +126,12 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        query = value;
+                        print(value);
+                      });
+                    },
                     controller: controller,
                     focusNode: focusNode,
                     onEditingComplete: onComplete,
@@ -155,28 +154,6 @@ class _SearchScreenState extends State<SearchScreen> {
           );
         },
       ),
-
-      if (isCompleated)
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.0),
-          child: SizedBox(
-              width: double.infinity, height: 50.0, child: CategorySelector()),
-        ),
-
-      if (isCompleated)
-        ListView.builder(
-            shrinkWrap: true,
-            itemCount: result.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ItemCard(
-                name: result[index]['name'],
-                shopName: result[index]['shopName'],
-                distance: result[index]['distance'],
-                price: result[index]['price'].toString(),
-                offer: result[index]['offer'],
-                imageUrl: result[index]['image'],
-              );
-            })
 
       ///End of the damn AutoComplete
     ];

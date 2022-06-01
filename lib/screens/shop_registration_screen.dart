@@ -9,6 +9,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:final_year_project/services/storage_service.dart';
 
 class ShopRegistration extends StatefulWidget {
   const ShopRegistration({Key? key}) : super(key: key);
@@ -20,14 +22,16 @@ class ShopRegistration extends StatefulWidget {
 
 class _ShopRegistrationState extends State<ShopRegistration> {
   ///variables
-  String? businessName;
+  String? buisnessName;
   String? phone;
   String? website;
   String? email;
   String? cat;
+  bool isloading = false;
 
   double? lat;
   double? long;
+  final Storage storage = Storage();
 
   List<XFile>? images = [];
   final ImagePicker _picker = ImagePicker();
@@ -35,7 +39,6 @@ class _ShopRegistrationState extends State<ShopRegistration> {
   final _fireStore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   User? user;
-  final storage = FirebaseStorage.instance;
   final storageRef = FirebaseStorage.instance.ref();
 
   ///Menu Items for category of the Business
@@ -78,26 +81,40 @@ class _ShopRegistrationState extends State<ShopRegistration> {
 
   @override
   void initState() {
+    _getStoragePermission();
     user = _auth.currentUser;
+    print(user!.uid);
     super.initState();
   }
 
+  Future _getStoragePermission() async {
+    bool permissionGranted;
+    if (await Permission.storage.request().isGranted) {
+      setState(() {
+        permissionGranted = true;
+      });
+    } else if (await Permission.storage.request().isPermanentlyDenied) {
+      await openAppSettings();
+    } else if (await Permission.storage.request().isDenied) {
+      setState(() {
+        permissionGranted = false;
+      });
+    }
+  }
+
   ///Function to Upload Images in a XFile List to the Cloud
-  void uploadImages(List<XFile> l) async {
-    for (int i = 0; i < l.length; i++) {
-      ///File to be uploaded
-      File file = File(l[i].path);
-
-      ///Reference in the Cloud
-      Reference? imageRef = storageRef
-          .child('shopImage/${user!.uid}/${l[i].path.split('/').last}');
-
-      ///Uploading the file to imageRef Reference
-      try {
-        await imageRef.putFile(file);
-      } catch (e) {
-        print('Error Ocuuerd Mahn!!');
+  Future<List<String>> uploadImages(List<XFile> l) async {
+    List<String> imageLinks = [];
+    if (l.isNotEmpty) {
+      for (int i = 0; i < l.length; i++) {
+        await storage.uploadItemFile(fileName: l[i].name, filePath: l[i].path);
+        String? downloadLink = await storage.getShopDownloadLink(
+            fileName: l[i].name, filePath: l[i].path);
+        imageLinks.add(downloadLink!);
       }
+      return imageLinks;
+    } else {
+      return imageLinks;
     }
   }
 
@@ -126,7 +143,7 @@ class _ShopRegistrationState extends State<ShopRegistration> {
               label: 'Business Name',
               onChanged: (value) {
                 setState(() {
-                  businessName = value;
+                  buisnessName = value;
                 });
               },
             ),
@@ -212,24 +229,35 @@ class _ShopRegistrationState extends State<ShopRegistration> {
               padding: const EdgeInsets.all(20.0),
               child: TextButton(
                 onPressed: () async {
-                  uploadImages(AddImages.images!);
+                  setState(() {
+                    isloading = true;
+                  });
+                  List<String> imageLinks =
+                      await uploadImages(AddImages.images!);
 
                   await _fireStore
-                      .doc('shopdata/$businessName ${user!.uid}')
+                      .doc('shopdata/$buisnessName ${user!.uid}')
                       .set({
                     'uid': user!.uid,
-                    'businessName': businessName,
+                    'buisnessName': buisnessName,
                     'phone': phone,
                     'website': website,
                     'email': email,
                     'cat': cat,
                     'location': GeoPoint(lat!, long!),
+                    'images': imageLinks,
                   }, SetOptions(merge: true));
+
+                  setState(() {
+                    isloading = false;
+                  });
                 },
                 style: kButtonStyle,
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
-                  child: kSubmitButtonChild,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: isloading
+                      ? const CircularProgressIndicator()
+                      : kSubmitButtonChild,
                 ),
               ),
             ),
