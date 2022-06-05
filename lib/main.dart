@@ -20,6 +20,7 @@ import 'screens/test_screen.dart';
 import 'services/common_veriables_provider.dart';
 import 'package:final_year_project/screens/vendor_screen.dart';
 import 'services/shop_data_provider.dart';
+import 'components/select_category.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

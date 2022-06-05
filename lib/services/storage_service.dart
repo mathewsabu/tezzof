@@ -15,25 +15,27 @@ class Storage {
     }
   }
 
-  Future<void> uploadShopFile({
+  Future<void> uploadFile({
+    String? location,
     String? filePath,
     String? fileName,
   }) async {
     File file = File(filePath!);
     try {
-      await storage.ref('shop_images/$fileName').putFile(file);
+      await storage.ref('$location/$fileName').putFile(file);
     } on FirebaseException catch (e) {
       print(e);
     }
   }
 
-  Future<String?> getShopDownloadLink({
+  Future<String?> getDownloadLink({
+    String? location,
     String? filePath,
     String? fileName,
   }) async {
     String? downloadUrl;
     try {
-      downloadUrl = await storage.ref('shop_images/$fileName').getDownloadURL();
+      downloadUrl = await storage.ref('$location/$fileName').getDownloadURL();
     } on FirebaseException catch (e) {
       print(e);
     }

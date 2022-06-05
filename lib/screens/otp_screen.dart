@@ -10,6 +10,8 @@ import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
 import 'registration_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:final_year_project/services/authentication_service.dart';
+import 'customer_home_screen.dart';
+import 'vendor_screen.dart';
 
 class OtpScreen extends StatefulWidget {
   static String id = "otp_screen";
@@ -27,6 +29,28 @@ class _OtpScreenState extends State<OtpScreen> {
   final _fireStore = FirebaseFirestore.instance;
   bool showSpinner = false;
   bool errorayi = false;
+
+  Future<String?> checkRegistration(
+      {var db, User? firebaseUser, context}) async {
+    var data;
+
+    final docRef = await db.collection("userdata").doc(firebaseUser!.uid);
+    await docRef.get().then(
+      (DocumentSnapshot doc) {
+        data = doc.data() as Map<String, dynamic>;
+        // ...
+      },
+      onError: (e) => print("Error getting document: $e"),
+    );
+
+    if (data["role"] == null) {
+      return 'not';
+    } else if (data["role"] == 0) {
+      return 'vendor';
+    } else {
+      return 'customer';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,12 +125,31 @@ class _OtpScreenState extends State<OtpScreen> {
                               );
 
                       if (temp == false) {
+                        String? check = await checkRegistration(db: _fireStore);
+                        if (check == 'customer') {
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const CustomerHomeScreen()));
+                        } else if (check == 'vendor') {
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const VendorScreen()));
+                        } else {
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const RegistrationScreen()));
+                        }
+
                         // ignore: use_build_context_synchronously
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const RegistrationScreen()));
+
                       } else {
                         setState(() {
                           errorayi = temp!;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ItemCard extends StatelessWidget {
   final String imageUrl;
@@ -79,10 +80,18 @@ class ItemCard extends StatelessWidget {
                 child: Container(
                   margin: const EdgeInsets.all(10.0),
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-                    image: DecorationImage(
-                        image: NetworkImage(imageUrl), fit: BoxFit.cover),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    //image: DecorationImage(
+                        //image: NetworkImage(imageUrl), fit: BoxFit.cover),
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
                 ),
               ),

@@ -6,14 +6,15 @@ import 'data_controller.dart';
 class ShopData extends ChangeNotifier {
   QueryDocumentSnapshot? doc;
   QuerySnapshot? itemsDoc;
-  List<String?>? categoriesData = [];
+  List<String>? categoriesData = [];
   List<Map<String, dynamic>> itemsMap = [];
 
   QueryDocumentSnapshot? get document => doc;
   QuerySnapshot? get items => itemsDoc;
   List<Map<String, dynamic>> get itemsList => itemsMap;
-  List<String?>? get categories => categoriesData;
+  List<String>? get categories => categoriesData;
 
+  ///this functino gets the shopdata and data of the items it sells from using DataController and
   Future getShopData(String uid) async {
     doc = await DataController.queryShopData(uid);
     itemsDoc = await DataController.queryItemData(uid);
@@ -33,6 +34,10 @@ class ShopData extends ChangeNotifier {
 
     print(itemsMap.length);
     notifyListeners();
-    return true;
+    if ((doc!.data() as Map<String, dynamic>)['location'] != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

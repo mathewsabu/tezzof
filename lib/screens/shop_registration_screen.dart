@@ -11,6 +11,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:final_year_project/services/storage_service.dart';
+import 'vendor_screen.dart';
 
 class ShopRegistration extends StatefulWidget {
   const ShopRegistration({Key? key}) : super(key: key);
@@ -107,9 +108,9 @@ class _ShopRegistrationState extends State<ShopRegistration> {
     List<String> imageLinks = [];
     if (l.isNotEmpty) {
       for (int i = 0; i < l.length; i++) {
-        await storage.uploadItemFile(fileName: l[i].name, filePath: l[i].path);
-        String? downloadLink = await storage.getShopDownloadLink(
-            fileName: l[i].name, filePath: l[i].path);
+        await storage.uploadFile(location: 'shop_images',fileName: l[i].name, filePath: l[i].path);
+        String? downloadLink = await storage.getDownloadLink(
+            location: 'shop_images', fileName: l[i].name, filePath: l[i].path);
         imageLinks.add(downloadLink!);
       }
       return imageLinks;
@@ -233,7 +234,8 @@ class _ShopRegistrationState extends State<ShopRegistration> {
                     isloading = true;
                   });
                   List<String> imageLinks =
-                      await uploadImages(AddImages.images!);
+                      await uploadImages(AddImages.images);
+                  AddImages.images = [];
 
                   await _fireStore
                       .doc('shopdata/$buisnessName ${user!.uid}')
@@ -251,6 +253,11 @@ class _ShopRegistrationState extends State<ShopRegistration> {
                   setState(() {
                     isloading = false;
                   });
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => VendorScreen()));
                 },
                 style: kButtonStyle,
                 child: Padding(

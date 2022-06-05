@@ -70,6 +70,32 @@ class DataController extends GetxController {
     return snapshot;
   }
 
+  static Future setOffer(String uid, String name, int? offer) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('itemdata')
+        .where('uid', isEqualTo: uid)
+        .where('name', isEqualTo: name)
+        .get();
+        
+    await FirebaseFirestore.instance
+        .collection('itemdata')
+        .doc(snapshot.docs.first.id)
+        .set({'offer': offer}, SetOptions(merge: true));
+  }
+
+  static Future deleteItemData(String uid, String name) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('itemdata')
+        .where('uid', isEqualTo: uid)
+        .where('name', isEqualTo: name)
+        .get();
+
+    await FirebaseFirestore.instance
+        .collection('itemdata')
+        .doc(snapshot.docs.first.id)
+        .delete();
+  }
+
   static Future queryShopData(String uid) async {
     print(uid);
     QuerySnapshot snapshot = await FirebaseFirestore.instance

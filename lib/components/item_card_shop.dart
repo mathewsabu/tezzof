@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ShopItemCard extends StatelessWidget {
   final String imageUrl;
@@ -73,12 +74,24 @@ class ShopItemCard extends StatelessWidget {
               Expanded(
                 flex: 5,
                 child: Container(
+                  clipBehavior: Clip.antiAlias,
                   margin: const EdgeInsets.all(10.0),
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-                    image: DecorationImage(
-                        image: NetworkImage(imageUrl), fit: BoxFit.cover),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    // image: DecorationImage(
+                    //     image: NetworkImage(imageUrl), fit: BoxFit.cover),
+                  ),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: imageUrl,
+                    placeholder: (context, url) => const Center(
+                        child: SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: CircularProgressIndicator())),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                 ),
               ),

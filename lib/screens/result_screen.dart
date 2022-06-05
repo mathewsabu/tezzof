@@ -72,7 +72,7 @@ class _ResultScreenState extends State<ResultScreen> {
                             distance: result[index]['distance'],
                             price: result[index]['price'].toString(),
                             offer: result[index]['offer'],
-                            imageUrl: result[index]['image'],
+                            imageUrl: result[index]['image'][0].toString(),
                           );
                         }),
                   )

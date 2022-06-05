@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class AddImages extends StatefulWidget {
   ///The Widget takes height and width of the image add box as parameters
@@ -13,18 +14,21 @@ class AddImages extends StatefulWidget {
 
   final double? width;
   final double? height;
-  static List<XFile> images = []; 
-  
+  static List<XFile> images = [];
+  static List<File> compressedImageFiles = [];
 
   @override
   State<AddImages> createState() => _AddImagesState();
 }
 
 class _AddImagesState extends State<AddImages> {
-  
-  //List<XFile>? images = [];  /// List of XFile type objects to store the path of the image picked
-  final ImagePicker _picker = ImagePicker();  ///Image Picker instance
-  List<Widget>? image = []; ///list of widgets used for children
+  //List<XFile>? images = [];   /// List of XFile type objects to store the path of the image picked
+  final ImagePicker _picker = ImagePicker();
+
+  ///Image Picker instance
+  List<Widget>? image = [];
+
+  ///list of widgets used for children
 
   ///Function to build Children List Containg Images from XFile List and also adds a close button to deselect the image
   List<Widget>? takeImages() {
@@ -37,7 +41,6 @@ class _AddImagesState extends State<AddImages> {
       gridChild = Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-
           ///Image Display widget
           Expanded(
             child: Padding(
@@ -56,10 +59,9 @@ class _AddImagesState extends State<AddImages> {
               ),
             ),
           ),
-          
+
           ///close button widget
           GestureDetector(
-            
             child: const Icon(
               Icons.close,
               size: 30,
@@ -81,6 +83,19 @@ class _AddImagesState extends State<AddImages> {
     return tempImage;
   }
 
+    Future<File> testCompressAndGetFile(File file, String targetPath) async {
+    var result = await FlutterImageCompress.compressAndGetFile(
+        file.absolute.path, targetPath,
+        quality: 88,
+        rotate: 180,
+      );
+
+    print(file.lengthSync());
+    print(result!.lengthSync());
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     image = takeImages();
@@ -95,9 +110,11 @@ class _AddImagesState extends State<AddImages> {
           child: GestureDetector(
             onTap: () async {
               var imageTemp = await _picker.pickMultiImage();
-
+              for (int i = 0; i < imageTemp!.length; i++) {
+                
+              }
               setState(() {
-                AddImages.images!.addAll(imageTemp!);
+                AddImages.images.addAll(imageTemp);
               });
             },
             child: Container(

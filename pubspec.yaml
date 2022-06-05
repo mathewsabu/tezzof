@@ -37,6 +37,14 @@ dependencies:
   firestore_search: ^0.1.9
   substring_highlight: ^1.0.33
   permission_handler: ^9.2.0
+  cached_network_image: ^3.2.1
+  flutter_cache_manager: ^3.3.0
+  flutter_image_compress: ^1.1.0
+  ndialog: ^4.1.1
+  pull_to_refresh: ^2.0.0
+  swipe_to: ^1.0.2
+  adaptive_dialog: ^1.6.3
+  flutter_animated_dialog: ^2.0.1
 
 
 
