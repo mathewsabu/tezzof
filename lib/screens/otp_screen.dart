@@ -125,7 +125,10 @@ class _OtpScreenState extends State<OtpScreen> {
                               );
 
                       if (temp == false) {
-                        String? check = await checkRegistration(db: _fireStore);
+                        String? check = await checkRegistration(
+                            db: _fireStore,
+                            firebaseUser: context.read<User?>(),
+                            context: context);
                         if (check == 'customer') {
                           // ignore: use_build_context_synchronously
                           Navigator.pushReplacement(

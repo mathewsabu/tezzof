@@ -69,6 +69,7 @@ class _ResultScreenState extends State<ResultScreen> {
                           return ItemCard(
                             name: result[index]['name'],
                             shopName: result[index]['shopName'],
+                            shopLocation: result[index]['location'],
                             distance: result[index]['distance'],
                             price: result[index]['price'].toString(),
                             offer: result[index]['offer'],

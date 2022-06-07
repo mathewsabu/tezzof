@@ -113,10 +113,16 @@ class ShopItemCard extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: Text(
-                        price + ' Rs',
-                        style: kPriceStyle,
-                      ),
+                      child: (offer != null && offer != 0)
+                              ? Text(
+                                  '${int.parse(price) - (int.parse(price) * (offer!.toDouble() / 100))}' +
+                                      '₹',
+                                  style: kPriceStyle,
+                                )
+                              : Text(
+                                  price + '₹',
+                                  style: kPriceStyle,
+                                ),
                     )
                   ],
                 ),
@@ -124,7 +130,7 @@ class ShopItemCard extends StatelessWidget {
             ],
           ),
         ),
-        if (offer != null)
+        if (offer != null && offer!= 0)
           Row(
             children: [
               const Expanded(child: SizedBox()),
